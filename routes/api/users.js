@@ -10,7 +10,7 @@ router.get('/',async(req,res)=>{
 });
 //POST http://localhost:3000/api/users
 router.post('/',async (req,res)=>{
-    const result = await User.create(req.body.nombre,req.body.apellidos,req.body.fecha_nacimiento,req.body.email, req.body.contraseña,req.body.telefono);
+    const result = await User.create(req.body.nombre,req.body.apellidos,req.body.fecha_nacimiento,req.body.email, req.body.contraseña,req.body.repite_contraseña);
     if(result['affectedRows'] === 1){
         const user = await User.getById(result['insertId']);
         res.json(user)

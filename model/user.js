@@ -21,10 +21,10 @@ const getById = (pId)=>{
         })
     });
 };
-const create =(nombre,apellidos,fecha_nacimiento,email,contraseña,telefono)=>{
+const create =(nombre,apellidos,fecha_nacimiento,email,contraseña,repite_contraseña)=>{
     console.log(nombre);
     return new Promise ((resolve,reject)=>{
-        db.query('insert into usuarios (nombre,apellidos,fecha_nacimiento,email,contraseña,telefono) values (?, ?, ?, ?, ?, ?)',[nombre,apellidos,fecha_nacimiento,email,contraseña,telefono],(err,result)=>{
+        db.query('insert into usuarios (nombre,apellidos,fecha_nacimiento,email,contraseña,repite_contraseña) values (?, ?, ?, ?, ?, ? )',[nombre,apellidos,fecha_nacimiento,email,contraseña,repite_contraseña],(err,result)=>{
             if(err) reject(err);
             resolve(result);
         })
