@@ -52,10 +52,23 @@ const deleteById = (pId) => {
     });
 };
 
+
+const emailExists = (pEmail) => {
+    return new Promise((resolve, reject) => {
+        db.query('select * from usuarios where usuarios.email = ?', [pEmail], (err, rows) => {
+            if (err) return reject(err)
+            if (rows.length === 0) return resolve(null)
+            resolve(rows[0])
+            /* console.log(rows[0]); */
+        })
+    })
+}
+
 module.exports = {
     getAll: getAll,
     getById: getById,
     create: create,
     deleteById: deleteById,
     updateById: updateById,
+    emailExists: emailExists,
 }
