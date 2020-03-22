@@ -11,7 +11,7 @@ router.get("/:houseid", async (req, res) => {
   res.json(house);
 });
 
-router.post("/new", async (req, res) => {
+router.post("/", async (req, res) => {
   const result = await House.create(req.body)
   res.json(result)
   if (result['affectedRows'] === 1) {
