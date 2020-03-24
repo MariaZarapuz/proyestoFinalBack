@@ -7,9 +7,6 @@ const middlewares = require('../middlewares')
 
 const User = require('../../model/user');
 
-/* MIDDLEWARES */
-/* router.use(middlewares.checkToken)
-router.use(middlewares.registerAction) */
 
 //Get http://localhost:3000/api/users
 router.get('/', async (req, res) => {
@@ -17,6 +14,7 @@ router.get('/', async (req, res) => {
     const rows = await User.getAll()
     res.json(rows);
 });
+
 //POST http://localhost:3000/api/users
 router.post('/', async (req, res) => {
     const contraseñaEnc = bcrypt.hashSync(req.body.contraseña, 10);
@@ -30,7 +28,6 @@ router.post('/', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const user = await User.emailExists(req.body.email);
-        /* console.log('hola hello') */
         /* console.log(user); */
         if (!user) {
             return res.status(401).json({ error: 'Error en email y/o password1' })
@@ -63,8 +60,7 @@ const createToken = (pUser) => {
 
 
 //PUT http://localhost:3000/api/users/:pUserId
-router.put('/:pUserId', async (req, res) => {
-
+router.put('/:pUserId', middlewares.checkToken, async (req, res) => {
     console.log(req.body);
     console.log(req.params);
     const result = await User.updateById(req.body, req.params.pUserId);
