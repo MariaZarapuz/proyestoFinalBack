@@ -22,10 +22,10 @@ const getById = (pId) => {
     });
 };
 
-const create = (nombre, apellidos, fecha_nacimiento, email, contraseña, repite_contraseña) => {
+const create = (nombre, apellidos, fecha_nacimiento, email, contraseña) => {
     console.log(nombre);
     return new Promise((resolve, reject) => {
-        db.query('insert into usuarios (nombre,apellidos,fecha_nacimiento,email,contraseña,repite_contraseña) values ( ?, ?, ?, ?, ?, ? )', [nombre, apellidos, fecha_nacimiento, email, contraseña, repite_contraseña], (err, result) => {
+        db.query('insert into usuarios (nombre,apellidos,fecha_nacimiento,email,contraseña) values ( ?, ?, ?, ?, ? )', [nombre, apellidos, fecha_nacimiento, email, contraseña], (err, result) => {
             if (err) reject(err);
             resolve(result);
         })

@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     const contraseñaEnc = bcrypt.hashSync(req.body.contraseña, 10);
     req.body.contraseña = contraseñaEnc
-    const result = await User.create(req.body.nombre, req.body.apellidos, req.body.fecha_nacimiento, req.body.email, req.body.contraseña, req.body.repite_contraseña)
+    const result = await User.create(req.body.nombre, req.body.apellidos, req.body.fecha_nacimiento, req.body.email, req.body.contraseña)
     res.json(result)
 
 });
