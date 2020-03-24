@@ -1,36 +1,37 @@
-const getAll = () => {
+const getById = (ptoken) => {
+    console.log(ptoken, 2);
     return new Promise((resolve, reject) => {
-        db.query('select * from usuarios', (err, row) => {
-            if (err) reject(err);
-            console.log(err)
-            resolve(row);
-        });
-    });
-};
-
-const getById = (pId) => {
-    console.log(pId);
-    return new Promise((resolve, reject) => {
-        db.query('select * from  usuarios where id = ?', [pId], (err, rows) => {
+        db.query('select * from  usuarios where token= ?', [ptoken], (err, rows) => {
 
             if (err) reject(err);
-            if (rows.length === 0) {
-                resolve(null);
-            }
-            resolve(rows[0]);
+
+            resolve(rows);
         })
     });
 };
 
-const create = (nombre, apellidos, fecha_nacimiento, email, contraseña, repite_contraseña) => {
+
+const create = (nombre, apellidos, fecha_nacimiento, email, contraseña) => {
     console.log(nombre);
     return new Promise((resolve, reject) => {
-        db.query('insert into usuarios (nombre,apellidos,fecha_nacimiento,email,contraseña,repite_contraseña) values ( ?, ?, ?, ?, ?, ? )', [nombre, apellidos, fecha_nacimiento, email, contraseña, repite_contraseña], (err, result) => {
+        db.query('insert into usuarios (nombre,apellidos,fecha_nacimiento,email,contraseña) values ( ?, ?, ?, ?, ? )', [nombre, apellidos, fecha_nacimiento, email, contraseña], (err, result) => {
             if (err) reject(err);
             resolve(result);
         })
     })
 };
+
+const updateToken = (token, id) => {
+    console.log(token, id, 'update')
+    return new Promise((resolve, reject) => {
+        db.query('update usuarios set token =? where id=?', [token, id], (err, result) => {
+            if (err) reject(err);
+            resolve(result);
+        })
+    })
+}
+
+
 
 const updateById = (pUser, pId) => {
     return new Promise((resolve, reject) => {
@@ -65,10 +66,11 @@ const emailExists = (pEmail) => {
 }
 
 module.exports = {
-    getAll: getAll,
+
     getById: getById,
     create: create,
     deleteById: deleteById,
     updateById: updateById,
     emailExists: emailExists,
+    updateToken: updateToken
 }
