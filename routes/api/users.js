@@ -4,6 +4,7 @@ const moment = require('moment');
 const jwt = require('jwt-simple')
 const middlewares = require('../middlewares')
 
+
 const User = require('../../model/user');
 
 /* MIDDLEWARES */
