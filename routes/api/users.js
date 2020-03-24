@@ -8,94 +8,92 @@ const User = require("../../model/user");
 
 //Get http://localhost:3000/api/users
 router.get("/", async (req, res) => {
-    const token = req.headers["user-token"];
-    console.log(token, 1);
-    const rows = await User.getById(token);
-    res.json(rows);
+  const token = req.headers["user-token"];
+  console.log(token, 1);
+  const rows = await User.getById(token);
+  res.json(rows);
 });
 
 //POST http://localhost:3000/api/users
 router.post("/", async (req, res) => {
-    const contraseñaEnc = bcrypt.hashSync(req.body.contraseña, 10);
-    req.body.contraseña = contraseñaEnc;
-    const result = await User.create(
-        req.body.nombre,
-        req.body.apellidos,
-        req.body.fecha_nacimiento,
-        req.body.email,
-        req.body.contraseña
-    );
-    res.json(result);
+  const contraseñaEnc = bcrypt.hashSync(req.body.contraseña, 10);
+  req.body.contraseña = contraseñaEnc;
+  const result = await User.create(
+    req.body.nombre,
+    req.body.apellidos,
+    req.body.fecha_nacimiento,
+    req.body.email,
+    req.body.contraseña
+  );
+  res.json(result);
 });
 
 // POST http://localhost:3000/api/users/login
 router.post("/login", async (req, res) => {
-    try {
-        const user = await User.emailExists(req.body.email);
-        /* console.log('hola hello') */
-        /* console.log(user); */
-        if (!user) {
-            return res.status(401).json({
-                error: "Error en email y/o password1"
-            });
-        }
-        /* console.log(user, 'ey que pasa loko') */
-        const iguales = bcrypt.compareSync(req.body.contraseña, user.contraseña);
-        if (iguales) {
-            let token = createToken(user)
-            const result = await User.updateToken(token, user.id);
-            res.json({
-                success: token
-            });
-
-        } else {
-            res.status(401).json({
-                error: "Error en email y/o password"
-            });
-        }
-    } catch (err) {
-        console.log(err);
+  try {
+    const user = await User.emailExists(req.body.email);
+    /* console.log(user); */
+    if (!user) {
+      return res.status(401).json({
+        error: "Error en email y/o password1"
+      });
     }
+    /* console.log(user, 'ey que pasa loko') */
+    const iguales = bcrypt.compareSync(req.body.contraseña, user.contraseña);
+    if (iguales) {
+      let token = createToken(user);
+      const result = await User.updateToken(token, user.id);
+      res.json({
+        success: token
+      });
+    } else {
+      res.status(401).json({
+        error: "Error en email y/o password"
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
 });
 
-const createToken = (pUser) => {
-    const payload = {
-        usuarioId: pUser.id,
-        fechaCreacion: moment().unix(),
-        fechaExpiracion: moment()
-            .add(1, "day")
-            .unix()
-    };
+const createToken = pUser => {
+  const payload = {
+    usuarioId: pUser.id,
+    fechaCreacion: moment().unix(),
+    fechaExpiracion: moment()
+      .add(1, "day")
+      .unix()
+  };
 
-    return jwt.encode(payload, process.env.SECRET_KEY);
+  return jwt.encode(payload, process.env.SECRET_KEY);
 };
 
 router.post("/saveToken", async (req, res) => {
-    console.log(req.body);
-    const result = await User.updateToken(req.body.token, req.body.id);
+  console.log(req.body);
+  const result = await User.updateToken(req.body.token, req.body.id);
 });
 
 //PUT http://localhost:3000/api/users/:pUserId
 router.put("/:pUserId", middlewares.checkToken, async (req, res) => {
-    console.log(req.body);
-    console.log(req.params);
-    const result = await User.updateById(req.body, req.params.pUserId);
-    //  console.log(result);
-    res.json(result);
+  console.log(req.body);
+  console.log(req.params);
+  const result = await User.updateById(req.body, req.params.pUserId);
+  //  console.log(result);
+  res.json(result);
 });
 
 //DELETE http://localhost:3000/api/users
 router.delete("/", middlewares.checkToken, async (req, res) => {
-    console.log(req.body);
-    const result = await User.deleteById(req.body.id);
-    if (result["affectedRows"] === 1) {
-        res.json({
-            success: "El usuario ha sido borrado"
-        });
-    } else {
-        res.json({
-            error: "el usuario no ha sido eliminado"
-        });
-    }
+  console.log(req.body);
+  const result = await User.deleteById(req.body.id);
+  if (result["affectedRows"] === 1) {
+    res.json({
+      success: "El usuario ha sido borrado"
+    });
+  } else {
+    res.json({
+      error: "el usuario no ha sido eliminado"
+    });
+  }
 });
 module.exports = router;
