@@ -74,11 +74,10 @@ router.post("/saveToken", async (req, res) => {
 });
 
 //PUT http://localhost:3000/api/users/:pUserId
-router.put("/:pUserId", middlewares.checkToken, async (req, res) => {
-  console.log(req.body);
-  console.log(req.params);
-  const result = await User.updateById(req.body, req.params.pUserId);
-  //  console.log(result);
+router.put("/updateProfile", middlewares.checkToken, async (req, res) => {
+  console.log(req.body, req.headers['user-token'], "hello");
+  const result = await User.updateProfile(req.body, req.headers['user-token']);
+  console.log(result);
   res.json(result);
 });
 
