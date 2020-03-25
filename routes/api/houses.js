@@ -17,19 +17,31 @@ router.get("/:houseid", async (req, res) => {
 });
 
 router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) => {
-  console.log(req.body);
-  console.log(req.files, 'holaaaaa');
-  console.log(req.payload.usuarioId);
 
+  // console.log(req.files, 'holaaaaa');
+  // console.log(req.payload.usuarioId);
+  let content = fs.readFileSync(req.files.imagen.path);
+  let ahora = new Date();
+  let nombreArchivo = ahora.getMilliseconds();
+  // console.log(nombreArchivo);
+  // console.log(req.files.fieldName);
+  let directorio = "./public/images/" + req.payload.usuarioId;
+  req.body.imagen1 = "/public/images/" + req.payload.usuarioId + "/" + nombreArchivo + ".jpg";
+  req.body.fk_usuarios = req.payload.usuarioId;
+  fs.mkdirSync(directorio);
+  fs.writeFileSync(`./public/images/${req.payload.usuarioId}/${nombreArchivo}.jpg`, content)
+
+
+  console.log(req.body)
   const result = await House.create(req.body)
   //res.json('palante')
   // res.json(result)
   if (result['affectedRows'] === 1) {
-    const house = await House.getById(result['insertId']);
-    let content = fs.readFileSync(req.files.imagen.path);
 
-    fs.writeFileSync(`./public/images/${house.id}.jpg`, content)
-    res.json(house)
+
+    res.json({
+      success: "todo bien"
+    })
   } else {
     res.json({
       error: 'El cliente no se ha introducido bien'
@@ -37,7 +49,7 @@ router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) =
   }
   // let content = fs.readFileSync(req.files.imagen.path)
   // fs.writeFileSync ('./image/imagen1.jpg',content)
-  // res.json({success:"todo bien"})
+
 });
 
 router.put('/:id', async (req, res) => {
