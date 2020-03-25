@@ -36,7 +36,7 @@ const create = ({
   habitaciones,
   camas,
   banos,
-  imagenes,
+
   descripcion,
   lavadora,
   secadora,

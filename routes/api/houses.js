@@ -17,7 +17,7 @@ router.get("/:houseid", async (req, res) => {
 
 router.post("/", multipartMiddleware, async (req, res) => {
   console.log(req.body);
-  console.log(req.files);
+  console.log(req.files, 'holaaaaa');
 
   const result = await House.create(req.body)
   //res.json('palante')
