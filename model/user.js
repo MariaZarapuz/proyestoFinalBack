@@ -41,16 +41,16 @@ const updateToken = (token, id) => {
   });
 };
 
-const updateById = (pUser, pId) => {
+const updateProfile = (pUser, token) => {
+  console.log(token, 'madre mia que malo es', pUser)
   return new Promise((resolve, reject) => {
     db.query(
-      "update usuarios set ? where id =?",
-      [pUser, pId],
+      "UPDATE usuarios SET nombre=?,apellidos=?,fecha_nacimiento=?,email=? WHERE id=(SELECT id FROM usuarios WHERE token= ?)",
+      [pUser.nombre, pUser.apellidos, pUser.fecha_nacimiento, pUser.email, token],
       (err, result) => {
         if (err) reject(err);
         resolve(result);
-      }
-    );
+      });
   });
 };
 
@@ -83,7 +83,7 @@ module.exports = {
   getById: getById,
   create: create,
   deleteById: deleteById,
-  updateById: updateById,
+  updateProfile: updateProfile,
   emailExists: emailExists,
   updateToken: updateToken
 };

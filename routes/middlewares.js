@@ -4,10 +4,13 @@ const fs = require('fs')
 
 
 const checkToken = (req, res, next) => {
+    // console.log(req.headers);
     // 
     /* console.log('Pasa por checktoken') */
     if (!req.headers['user-token']) {
-        return res.json({ error: 'Debes incluir la cabecera user-token' })
+        return res.json({
+            error: 'Debes incluir la cabecera user-token'
+        })
     }
 
     // Comprobamos si el token es correcto
@@ -17,13 +20,17 @@ const checkToken = (req, res, next) => {
         payload = jwt.decode(token, process.env.SECRET_KEY);
     } catch (err) {
         console.log(err);
-        return res.json({ error: 'El token es incorrecto' })
+        return res.json({
+            error: 'El token es incorrecto'
+        })
     }
 
     // Mirar si el token ha expirado
     const fechaActual = moment().unix();
     if (fechaActual > payload.fechaExpiración) {
-        return res.json({ error: 'El token está caducado' })
+        return res.json({
+            error: 'El token está caducado'
+        })
     }
     req.payload = payload;
 
