@@ -4,6 +4,7 @@ const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart();
 const fs = require('fs');
 const path = require('path');
+const middlewares = require('../middlewares')
 
 router.get("/", async (req, res) => {
   const houses = await House.getAll();
@@ -15,19 +16,23 @@ router.get("/:houseid", async (req, res) => {
   res.json(house);
 });
 
-router.post("/", multipartMiddleware, async (req, res) => {
-  console.log(req.body);
-  console.log(req.files);
+
+// POST http://localhost:3000/api/houses
+router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) => {
+  //console.log(req.body);
+  //console.log(req.files);
+  console.log(req.payload)
 
   const result = await House.create(req.body)
+  console.log(result)
   //res.json('palante')
   // res.json(result)
   if (result['affectedRows'] === 1) {
     const house = await House.getById(result['insertId']);
     let content = fs.readFileSync(req.files.imagen.path);
-
     fs.writeFileSync(`./public/images/${house.id}.jpg`, content)
     res.json(house)
+
   } else {
     res.json({
       error: 'El cliente no se ha introducido bien'
