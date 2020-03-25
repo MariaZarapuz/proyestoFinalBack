@@ -54,10 +54,10 @@ const updateProfile = (pUser, token) => {
   });
 };
 
-const deleteById = pId => {
-  console.log(pId);
+const deleteByToken = (token) => {
+  console.log(token);
   return new Promise((resolve, reject) => {
-    db.query("delete from usuarios where id = ?", [pId], (err, result) => {
+    db.query("delete from usuarios where token = ?", [token], (err, result) => {
       if (err) reject(err);
       resolve(result);
     });
@@ -82,7 +82,7 @@ const emailExists = pEmail => {
 module.exports = {
   getById: getById,
   create: create,
-  deleteById: deleteById,
+  deleteByToken: deleteByToken,
   updateProfile: updateProfile,
   emailExists: emailExists,
   updateToken: updateToken
