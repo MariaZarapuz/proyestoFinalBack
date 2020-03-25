@@ -36,7 +36,6 @@ const create = ({
   habitaciones,
   camas,
   banos,
-
   descripcion,
   lavadora,
   secadora,
@@ -55,11 +54,12 @@ const create = ({
   piscina,
   terraza,
   balcon,
+  imagen1,
   fk_usuarios
 }) => {
   return new Promise((resolve, reject) => {
     db.query(
-      "insert into casas (tipo,direccion,latitud,longitud,piso,puerta,poblacion,provincia, pais,cp,fecha_entrada,fecha_salida,capacidad,habitaciones,camas,banos,descripcion,lavadora,secadora,aireAcondicionado,calefaccion,teleCable,plancha,horno,wifi,microondas,lavavajillas,secador,tostador,ascensor,parking,piscina,terraza,balcon,fk_usuarios) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "insert into casas (tipo,direccion,latitud,longitud,piso,puerta,poblacion,provincia, pais,cp,fecha_entrada,fecha_salida,capacidad,habitaciones,camas,banos,descripcion,lavadora,secadora,aireAcondicionado,calefaccion,teleCable,plancha,horno,wifi,microondas,lavavajillas,secador,tostador,ascensor,parking,piscina,terraza,balcon,imagen1,fk_usuarios) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
       [
         tipo,
         direccion,
@@ -95,6 +95,7 @@ const create = ({
         piscina,
         terraza,
         balcon,
+        imagen1,
         fk_usuarios
       ],
       (err, result) => {
