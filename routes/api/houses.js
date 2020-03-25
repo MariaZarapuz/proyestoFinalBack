@@ -4,6 +4,7 @@ const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart();
 const fs = require('fs');
 const path = require('path');
+const middlewares = require("../middlewares");
 
 router.get("/", async (req, res) => {
   const houses = await House.getAll();
@@ -15,9 +16,10 @@ router.get("/:houseid", async (req, res) => {
   res.json(house);
 });
 
-router.post("/", multipartMiddleware, async (req, res) => {
+router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) => {
   console.log(req.body);
   console.log(req.files, 'holaaaaa');
+  console.log(req.payload.usuarioId);
 
   const result = await House.create(req.body)
   //res.json('palante')
