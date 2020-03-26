@@ -7,9 +7,9 @@ const getAll = () => {
   });
 };
 
-const getById = pFk_usuarios => {
+const getByFk = pFk_usuarios => {
   return new Promise((resolve, reject) => {
-    db.query("select * from casas where fk_usuarios =?", [pFk_usuarios], (err, rows) => {
+    db.query("select * from casas where fk_usuarios = ?", [pFk_usuarios], (err, rows) => {
       if (err) reject(err);
       if (rows.length === 0) {
         resolve(null);
@@ -207,7 +207,7 @@ const editbyId = ({
 
 const deleteById = houseid => {
   return new Promise((resolve, reject) => {
-    db.query('delete from casas where id=?', [houseid], (err, result) => {
+    db.query('delete from casas where id = ?', [houseid], (err, result) => {
       if (err) reject(err);
       resolve(result);
     })
@@ -216,7 +216,7 @@ const deleteById = houseid => {
 
 module.exports = {
   getAll: getAll,
-  getById: getById,
+  getByFk: getByFk,
   getByFilter: getByFilter,
   create: create,
   editbyId: editbyId,

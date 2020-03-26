@@ -16,12 +16,14 @@ router.get("/", async (req, res) => {
 
 
 // GET http://localhost:3000/api/houses/:houseid
-router.get("/:houseid", async (req, res) => {
-  console.log(req.params.houseid)
-  const house = await House.getById(req.params.houseid);
+router.get("/:housefk", async (req, res) => {
+  console.log(req.params.housefk)
+  const house = await House.getByFk(req.params.housefk);
   res.json(house);
 });
 
+
+//POST http://localhost:3000/api/houses/filter
 router.post('/filter', async (req, res) => {
   const filter = req.body.poblacion;
   console.log(req.body, 'Hola amigo')
@@ -31,6 +33,8 @@ router.post('/filter', async (req, res) => {
 
 })
 
+
+//POST http://localhost:3000/api/houses
 router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) => {
 
   // console.log(req.files, 'holaaaaa');
@@ -42,7 +46,7 @@ router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) =
   // console.log(nombreArchivo);
   // console.log(req.files.fieldName);
   let directorio = "./public/images/" + req.payload.usuarioId;
-  req.body.imagen1 = "http://localhost:3000/images/" + req.payload.usuarioId + "/" + nombreArchivo + ".jpg";
+  req.body.imagen1 = req.get('host') + "/images/" + req.payload.usuarioId + "/" + nombreArchivo + ".jpg";
   req.body.fk_usuarios = req.payload.usuarioId;
   fs.mkdirSync(directorio);
   fs.writeFileSync(`./public/images/${req.payload.usuarioId}/${nombreArchivo}.jpg`, content)
