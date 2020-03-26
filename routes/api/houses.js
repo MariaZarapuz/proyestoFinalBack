@@ -18,6 +18,15 @@ router.get("/:houseid", async (req, res) => {
   res.json(house);
 });
 
+router.post('/filter', async (req, res) => {
+  const filter = req.body.poblacion;
+  console.log(req.body, 'Hola amigo')
+
+  const filterHouses = await House.getByFilter(filter)
+  res.json(filterHouses);
+
+})
+
 router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) => {
 
   // console.log(req.files, 'holaaaaa');
