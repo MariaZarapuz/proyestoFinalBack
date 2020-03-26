@@ -6,7 +6,7 @@ const getById = ptoken => {
       [ptoken],
       (err, rows) => {
         if (err) reject(err);
-
+        console.log(rows);
         resolve(rows);
       }
     );
