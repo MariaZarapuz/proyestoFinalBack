@@ -23,6 +23,9 @@ router.get("/:housefk", async (req, res) => {
 });
 
 
+
+
+
 //POST http://localhost:3000/api/houses/filter
 router.post('/filter', async (req, res) => {
   const filter = req.body.poblacion;
@@ -46,7 +49,7 @@ router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) =
   // console.log(nombreArchivo);
   // console.log(req.files.fieldName);
   let directorio = "./public/images/" + req.payload.usuarioId;
-  req.body.imagen1 = "http://localhost:3000/images/" + req.payload.usuarioId + "/" + nombreArchivo + ".jpg";
+  req.body.imagen1 = req.get('host') + "/images/" + req.payload.usuarioId + "/" + nombreArchivo + ".jpg";
   req.body.fk_usuarios = req.payload.usuarioId;
   fs.mkdirSync(directorio);
   fs.writeFileSync(`./public/images/${req.payload.usuarioId}/${nombreArchivo}.jpg`, content)
@@ -74,13 +77,14 @@ router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) =
 // PUT http://localhost:3000/api/houses/:id
 router.put('/:id', async (req, res) => {
   const result = await House.editbyId(req.body, req.params.id)
-  res.json(result)
+  //res.json(result)
   if (result['affectedRows'] === 1) {
-    const house = await House.getById(result['InsertId']);
+    const house = await House.getByFk(result['insertId'])
     res.json(house)
+
   } else {
     res.json({
-      error: 'El cliente no se ha introducido bien'
+      error: 'No se ha podido editar la casa'
     })
   }
 });

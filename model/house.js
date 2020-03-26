@@ -152,12 +152,11 @@ const editbyId = ({
   terraza,
   balcon,
   imagen1,
-  fk_usuarios
 
 }, idHouse) => {
   return new Promise((resolve, reject) => {
     db.query(
-      "update casas set tipo=?,direccion=?,latitud=?,longitud=?,piso=?,puerta=?,poblacion=?,provincia=?, pais=?,cp=?,fecha_entrada=?,fecha_salida=?,capacidad=?,habitaciones=?,camas=?,banos=?,imagenes=?,descripcion=?,lavadora=?,secadora=?,aireAcondicionado=?,calefaccion=?,teleCable=?,plancha=?,horno=?,wifi=?,microondas=?,lavavajillas=?,secador=?,tostador=?,ascensor=?,parking=?,piscina=?,terraza=?,balcon=?,imagen1=?,fk_usuarios=? where id=?",
+      "update casas set tipo=?,direccion=?,latitud=?,longitud=?,piso=?,puerta=?,poblacion=?,provincia=?, pais=?,cp=?,fecha_entrada=?,fecha_salida=?,capacidad=?,habitaciones=?,camas=?,banos=?,descripcion=?,lavadora=?,secadora=?,aireAcondicionado=?,calefaccion=?,teleCable=?,plancha=?,horno=?,wifi=?,microondas=?,lavavajillas=?,secador=?,tostador=?,ascensor=?,parking=?,piscina=?,terraza=?,balcon=?,imagen1=? where id=?",
       [
         tipo,
         direccion,
@@ -194,8 +193,7 @@ const editbyId = ({
         terraza,
         balcon,
         imagen1,
-        fk_usuarios,
-        [idHouse]
+        idHouse
       ],
       (err, result) => {
         if (err) reject(err);
