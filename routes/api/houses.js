@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const middlewares = require("../middlewares");
 
+// GET http://localhost:3000/api/houses
 router.get("/", async (req, res) => {
   const houses = await House.getAll();
 
@@ -13,11 +14,16 @@ router.get("/", async (req, res) => {
 
 });
 
-router.get("/:houseid", async (req, res) => {
-  const house = await House.getById(req.params.houseid);
+
+// GET http://localhost:3000/api/houses/:houseid
+router.get("/:housefk", async (req, res) => {
+  console.log(req.params.housefk)
+  const house = await House.getByFk(req.params.housefk);
   res.json(house);
 });
 
+
+//POST http://localhost:3000/api/houses/filter
 router.post('/filter', async (req, res) => {
   const filter = req.body.poblacion;
   console.log(req.body, 'Hola amigo')
@@ -27,6 +33,8 @@ router.post('/filter', async (req, res) => {
 
 })
 
+
+//POST http://localhost:3000/api/houses
 router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) => {
 
   // console.log(req.files, 'holaaaaa');
@@ -43,14 +51,12 @@ router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) =
   fs.mkdirSync(directorio);
   fs.writeFileSync(`./public/images/${req.payload.usuarioId}/${nombreArchivo}.jpg`, content)
 
-
   console.log(req.body)
   const result = await House.create(req.body)
   console.log(result)
   //res.json('palante')
   // res.json(result)
   if (result['affectedRows'] === 1) {
-
 
     res.json({
       success: "todo bien"
@@ -65,6 +71,7 @@ router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) =
 
 });
 
+// PUT http://localhost:3000/api/houses/:id
 router.put('/:id', async (req, res) => {
   const result = await House.editbyId(req.body, req.params.id)
   res.json(result)
@@ -78,6 +85,8 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+
+// DELETE http://localhost:3000/api/houses/:id
 router.delete('/:idHouse', async (req, res) => {
   const house = await House.deleteById(req.params.idHouse);
   if (house['affectedRows'] === 1) {

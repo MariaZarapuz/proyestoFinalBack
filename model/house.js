@@ -7,9 +7,9 @@ const getAll = () => {
   });
 };
 
-const getById = houseId => {
+const getByFk = pFk_usuarios => {
   return new Promise((resolve, reject) => {
-    db.query("select * from casas where id =?", [houseId], (err, rows) => {
+    db.query("select * from casas where fk_usuarios = ?", [pFk_usuarios], (err, rows) => {
       if (err) reject(err);
       if (rows.length === 0) {
         resolve(null);
@@ -133,7 +133,6 @@ const editbyId = ({
   habitaciones,
   camas,
   banos,
-  imagenes,
   descripcion,
   lavadora,
   secadora,
@@ -152,12 +151,13 @@ const editbyId = ({
   piscina,
   terraza,
   balcon,
-  fk_usuarios,
+  imagen1,
+  fk_usuarios
 
 }, idHouse) => {
   return new Promise((resolve, reject) => {
     db.query(
-      "update casas set tipo=?,direccion=?,latitud=?,longitud=?,piso=?,puerta=?,poblacion=?,provincia=?, pais=?,cp=?,fecha_entrada=?,fecha_salida=?,capacidad=?,habitaciones=?,camas=?,banos=?,imagenes=?,descripcion=?,lavadora=?,secadora=?,aireAcondicionado=?,calefaccion=?,teleCable=?,plancha=?,horno=?,wifi=?,microondas=?,lavavajillas=?,secador=?,tostador=?,ascensor=?,parking=?,piscina=?,terraza=?,balcon=?,fk_usuarios=? where id=?",
+      "update casas set tipo=?,direccion=?,latitud=?,longitud=?,piso=?,puerta=?,poblacion=?,provincia=?, pais=?,cp=?,fecha_entrada=?,fecha_salida=?,capacidad=?,habitaciones=?,camas=?,banos=?,imagenes=?,descripcion=?,lavadora=?,secadora=?,aireAcondicionado=?,calefaccion=?,teleCable=?,plancha=?,horno=?,wifi=?,microondas=?,lavavajillas=?,secador=?,tostador=?,ascensor=?,parking=?,piscina=?,terraza=?,balcon=?,imagen1=?,fk_usuarios=? where id=?",
       [
         tipo,
         direccion,
@@ -175,7 +175,6 @@ const editbyId = ({
         habitaciones,
         camas,
         banos,
-        imagenes,
         descripcion,
         lavadora,
         secadora,
@@ -194,9 +193,9 @@ const editbyId = ({
         piscina,
         terraza,
         balcon,
+        imagen1,
         fk_usuarios,
-
-
+        [idHouse]
       ],
       (err, result) => {
         if (err) reject(err);
@@ -208,7 +207,7 @@ const editbyId = ({
 
 const deleteById = houseid => {
   return new Promise((resolve, reject) => {
-    db.query('delete from casas where id=?', [houseid], (err, result) => {
+    db.query('delete from casas where id = ?', [houseid], (err, result) => {
       if (err) reject(err);
       resolve(result);
     })
@@ -217,7 +216,7 @@ const deleteById = houseid => {
 
 module.exports = {
   getAll: getAll,
-  getById: getById,
+  getByFk: getByFk,
   getByFilter: getByFilter,
   create: create,
   editbyId: editbyId,
