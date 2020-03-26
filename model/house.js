@@ -19,6 +19,15 @@ const getById = pFk_usuarios => {
   });
 };
 
+const getByFilter = filter => {
+  return new Promise((resolve, reject) => {
+    db.query("select * from casas where poblacion =?", [filter], (err, rows) => {
+      if (err) reject(err);
+      resolve(rows);
+    });
+  });
+}
+
 const create = ({
   tipo,
   direccion,
@@ -209,6 +218,7 @@ const deleteById = houseid => {
 module.exports = {
   getAll: getAll,
   getById: getById,
+  getByFilter: getByFilter,
   create: create,
   editbyId: editbyId,
   deleteById: deleteById
