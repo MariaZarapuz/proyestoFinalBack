@@ -83,16 +83,18 @@ router.put("/updateProfile", middlewares.checkToken, async (req, res) => {
 
 //DELETE http://localhost:3000/api/users
 router.delete("/", middlewares.checkToken, async (req, res) => {
-  console.log(req.body);
-  const result = await User.deleteById(req.body.id);
+  // console.log(req.headers['user-token']);
+  const result = await User.deleteByToken(req.headers['user-token']);
+  // console.log(result)
   if (result["affectedRows"] === 1) {
     res.json({
-      success: "El usuario ha sido borrado"
+      success: "El usuario se ha eliminado"
     });
   } else {
     res.json({
-      error: "el usuario no ha sido eliminado"
+      error: "El usuario no ha sido eliminado"
     });
   }
 });
+
 module.exports = router;

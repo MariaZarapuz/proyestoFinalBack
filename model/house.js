@@ -86,6 +86,7 @@ const create = ({
         habitaciones,
         camas,
         banos,
+        imagen1,
         descripcion,
         lavadora,
         secadora,
@@ -114,6 +115,8 @@ const create = ({
     );
   });
 };
+
+
 const editbyId = ({
   tipo,
   direccion,
@@ -193,7 +196,7 @@ const editbyId = ({
         terraza,
         balcon,
         fk_usuarios,
-        idHouse
+
 
       ],
       (err, result) => {

@@ -46,6 +46,7 @@ router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) =
 
   console.log(req.body)
   const result = await House.create(req.body)
+  console.log(result)
   //res.json('palante')
   // res.json(result)
   if (result['affectedRows'] === 1) {
