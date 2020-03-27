@@ -49,7 +49,7 @@ router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) =
   // console.log(nombreArchivo);
   // console.log(req.files.fieldName);
   let directorio = "./public/images/" + req.payload.usuarioId;
-  req.body.imagen1 = req.get('host') + "/images/" + req.payload.usuarioId + "/" + nombreArchivo + ".jpg";
+  req.body.imagen1 = "http://" + req.get('host') + "/images/" + req.payload.usuarioId + "/" + nombreArchivo + ".jpg";
   req.body.fk_usuarios = req.payload.usuarioId;
   fs.mkdirSync(directorio);
   fs.writeFileSync(`./public/images/${req.payload.usuarioId}/${nombreArchivo}.jpg`, content)
