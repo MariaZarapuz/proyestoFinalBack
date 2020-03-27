@@ -50,7 +50,8 @@ router.post("/login", async (req, res) => {
       let token = createToken(user);
       const result = await User.updateToken(token, user.id);
       res.json({
-        success: token
+        success: token,
+        id: user.id
       });
     } else {
       res.status(401).json({
@@ -77,6 +78,7 @@ const createToken = pUser => {
 router.post("/saveToken", async (req, res) => {
   console.log(req.body);
   const result = await User.updateToken(req.body.token, req.body.id);
+
 });
 
 //PUT http://localhost:3000/api/users/:pUserId

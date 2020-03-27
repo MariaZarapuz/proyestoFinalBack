@@ -28,8 +28,17 @@ const getByFilter = filter => {
   });
 }
 
+const getName = name => {
+  return new Promise((resolve, reject) => {
+    db.query("select * from casas where nombre =?", [nombre], (err, rows) => {
+      if (err) reject(err);
+      resolve(rows);
+    });
+  });
+}
+
 const create = ({
-  tipo,
+  titulo,
   direccion,
   latitud,
   longitud,
@@ -68,9 +77,9 @@ const create = ({
 }) => {
   return new Promise((resolve, reject) => {
     db.query(
-      "insert into casas (tipo,direccion,latitud,longitud,piso,puerta,poblacion,provincia, pais,cp,fecha_entrada,fecha_salida,capacidad,habitaciones,camas,banos,descripcion,lavadora,secadora,aireAcondicionado,calefaccion,teleCable,plancha,horno,wifi,microondas,lavavajillas,secador,tostador,ascensor,parking,piscina,terraza,balcon,imagen1,fk_usuarios) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "insert into casas (titulo,direccion,latitud,longitud,piso,puerta,poblacion,provincia, pais,cp,fecha_entrada,fecha_salida,capacidad,habitaciones,camas,banos,descripcion,lavadora,secadora,aireAcondicionado,calefaccion,teleCable,plancha,horno,wifi,microondas,lavavajillas,secador,tostador,ascensor,parking,piscina,terraza,balcon,imagen1,fk_usuarios) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
       [
-        tipo,
+        titulo,
         direccion,
         latitud,
         longitud,
@@ -117,7 +126,7 @@ const create = ({
 
 
 const editbyId = ({
-  tipo,
+  titulo,
   direccion,
   latitud,
   longitud,
@@ -156,9 +165,9 @@ const editbyId = ({
 }, idHouse) => {
   return new Promise((resolve, reject) => {
     db.query(
-      "update casas set tipo=?,direccion=?,latitud=?,longitud=?,piso=?,puerta=?,poblacion=?,provincia=?, pais=?,cp=?,fecha_entrada=?,fecha_salida=?,capacidad=?,habitaciones=?,camas=?,banos=?,descripcion=?,lavadora=?,secadora=?,aireAcondicionado=?,calefaccion=?,teleCable=?,plancha=?,horno=?,wifi=?,microondas=?,lavavajillas=?,secador=?,tostador=?,ascensor=?,parking=?,piscina=?,terraza=?,balcon=?,imagen1=? where id=?",
+      "update casas set titulo=?,direccion=?,latitud=?,longitud=?,piso=?,puerta=?,poblacion=?,provincia=?, pais=?,cp=?,fecha_entrada=?,fecha_salida=?,capacidad=?,habitaciones=?,camas=?,banos=?,descripcion=?,lavadora=?,secadora=?,aireAcondicionado=?,calefaccion=?,teleCable=?,plancha=?,horno=?,wifi=?,microondas=?,lavavajillas=?,secador=?,tostador=?,ascensor=?,parking=?,piscina=?,terraza=?,balcon=?,imagen1=? where id=?",
       [
-        tipo,
+        titulo,
         direccion,
         latitud,
         longitud,
@@ -216,6 +225,7 @@ module.exports = {
   getAll: getAll,
   getByFk: getByFk,
   getByFilter: getByFilter,
+  getName: getName,
   create: create,
   editbyId: editbyId,
   deleteById: deleteById
