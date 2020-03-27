@@ -16,7 +16,6 @@ router.get("/", async (req, res) => {
 
 //GET http://localhost:3000/api/users/user/:idUser
 router.get("/user/:idUser", async (req, res) => {
-  console.log(req.params)
   const user = await User.getUserById(req.params.idUser)
   res.json(user)
 })
@@ -52,6 +51,7 @@ router.post("/login", async (req, res) => {
       const result = await User.updateToken(token, user.id);
       res.json({
         success: token
+
       });
     } else {
       res.status(401).json({
