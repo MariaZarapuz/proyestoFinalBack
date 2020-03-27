@@ -14,9 +14,9 @@ router.get("/", async (req, res) => {
   res.json(rows);
 });
 
-//GET http://localhost:3000/api/users/:idUser
-router.get("/:idUser", async (req, res) => {
-  const user = await User.getUserById(req.params.id)
+//GET http://localhost:3000/api/users/user/:idUser
+router.get("/user/:idUser", async (req, res) => {
+  const user = await User.getUserById(req.params.idUser)
   res.json(user)
 })
 
@@ -51,6 +51,7 @@ router.post("/login", async (req, res) => {
       const result = await User.updateToken(token, user.id);
       res.json({
         success: token
+
       });
     } else {
       res.status(401).json({
