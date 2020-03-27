@@ -13,6 +13,23 @@ const getById = ptoken => {
   });
 };
 
+const getUserById = pUserId => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      "select * from usuarios where id = ?",
+      [pUserId],
+      (err, rows) => {
+        if (err) reject(err);
+        console.log(rows)
+        if (rows.length === 0) {
+          resolve(null);
+        }
+        resolve(rows);
+      }
+    )
+  });
+};
+
 const create = (nombre, apellidos, fecha_nacimiento, email, contraseña) => {
   console.log(nombre);
   return new Promise((resolve, reject) => {
@@ -81,6 +98,7 @@ const emailExists = pEmail => {
 
 module.exports = {
   getById: getById,
+  getUserById: getUserById,
   create: create,
   deleteByToken: deleteByToken,
   updateProfile: updateProfile,

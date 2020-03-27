@@ -14,6 +14,12 @@ router.get("/", async (req, res) => {
   res.json(rows);
 });
 
+//GET http://localhost:3000/api/users/:idUser
+router.get("/:idUser", async (req, res) => {
+  const user = await User.getUserById(req.params.id)
+  res.json(user)
+})
+
 //POST http://localhost:3000/api/users
 router.post("/", async (req, res) => {
   const contraseñaEnc = bcrypt.hashSync(req.body.contraseña, 10);
