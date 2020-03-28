@@ -75,6 +75,7 @@ const create = ({
   imagen1,
   fk_usuarios
 }) => {
+  console.log(plancha)
   return new Promise((resolve, reject) => {
     db.query(
       "insert into casas (titulo,direccion,latitud,longitud,piso,puerta,poblacion,provincia, pais,cp,fecha_entrada,fecha_salida,capacidad,habitaciones,camas,banos,descripcion,lavadora,secadora,aireAcondicionado,calefaccion,teleCable,plancha,horno,wifi,microondas,lavavajillas,secador,tostador,ascensor,parking,piscina,terraza,balcon,imagen1,fk_usuarios) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
