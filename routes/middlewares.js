@@ -4,9 +4,6 @@ const fs = require('fs')
 
 
 const checkToken = (req, res, next) => {
-    // console.log(req.headers);
-    // 
-    /* console.log('Pasa por checktoken') */
     if (!req.headers['user-token']) {
         return res.json({
             error: 'Debes incluir la cabecera user-token'
@@ -19,7 +16,6 @@ const checkToken = (req, res, next) => {
     try {
         payload = jwt.decode(token, process.env.SECRET_KEY);
     } catch (err) {
-        console.log(err);
         return res.json({
             error: 'El token es incorrecto'
         })
