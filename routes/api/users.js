@@ -9,7 +9,6 @@ const User = require("../../model/user");
 //Get http://localhost:3000/api/users
 router.get("/", async (req, res) => {
   const token = req.headers["user-token"];
-  console.log(token, 1);
   const rows = await User.getById(token);
   res.json(rows);
 });
@@ -38,13 +37,11 @@ router.post("/", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const user = await User.emailExists(req.body.email);
-    /* console.log(user); */
     if (!user) {
       return res.status(401).json({
         error: "Error en email y/o password1"
       });
     }
-    /* console.log(user, 'ey que pasa loko') */
     const iguales = bcrypt.compareSync(req.body.contraseña, user.contraseña);
     if (iguales) {
       let token = createToken(user);
@@ -76,23 +73,19 @@ const createToken = pUser => {
 };
 
 router.post("/saveToken", async (req, res) => {
-  console.log(req.body);
+
   const result = await User.updateToken(req.body.token, req.body.id);
 });
 
 //PUT http://localhost:3000/api/users/:pUserId
 router.put("/updateProfile", middlewares.checkToken, async (req, res) => {
-  console.log(req.body, req.headers['user-token'], "hello");
   const result = await User.updateProfile(req.body, req.headers['user-token']);
-  console.log(result);
   res.json(result);
 });
 
 //DELETE http://localhost:3000/api/users
 router.delete("/", middlewares.checkToken, async (req, res) => {
-  // console.log(req.headers['user-token']);
   const result = await User.deleteByToken(req.headers['user-token']);
-  // console.log(result)
   if (result["affectedRows"] === 1) {
     res.json({
       success: "El usuario se ha eliminado"
