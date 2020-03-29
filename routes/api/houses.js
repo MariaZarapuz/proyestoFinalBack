@@ -32,25 +32,30 @@ router.post('/filter', async (req, res) => {
 
 //POST http://localhost:3000/api/houses
 router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) => {
-  console.log(req.files)
-  let content = fs.readFileSync(req.files.imagen.path);
-  let ahora = new Date();
-  let nombreArchivo = ahora.getMilliseconds();
+  //console.log('que pasa', req.files.imagen)
+  let index = 1
+  for (let ruta of req.files.imagen) {
 
-  let directorio = "./public/images/" + req.payload.usuarioId;
-  req.body.imagen1 = "http://" + req.get('host') + "/images/" + req.payload.usuarioId + "/" + nombreArchivo + ".jpg";
-  req.body.fk_usuarios = req.payload.usuarioId;
-  console.log(req.body)
+    let content = fs.readFileSync(ruta.path);
+    console.log(content)
+    let ahora = new Date();
+    let nombreArchivo = ahora.getMilliseconds();
 
+    let directorio = "./public/images/" + req.payload.usuarioId;
 
-
-  if (fs.existsSync(directorio)) {
-    fs.writeFileSync(`./public/images/${req.payload.usuarioId}/${nombreArchivo}.jpg`, content)
-  } else {
-    fs.mkdirSync(directorio);
-    fs.writeFileSync(`./public/images/${req.payload.usuarioId}/${nombreArchivo}.jpg`, content)
+    req.body['imagen' + index] = "http://" + req.get('host') + "/images/" + req.payload.usuarioId + "/" + nombreArchivo + ".jpg";
+    console.log('hola', req.body);
+    //console.log('adios', req.body.imagen[index]);
+    req.body.fk_usuarios = req.payload.usuarioId;
+    if (fs.existsSync(directorio)) {
+      fs.writeFileSync(`./public/images/${req.payload.usuarioId}/${nombreArchivo}.jpg`, content)
+    } else {
+      fs.mkdirSync(directorio);
+      fs.writeFileSync(`./public/images/${req.payload.usuarioId}/${nombreArchivo}.jpg`, content)
+    }
+    index++
   }
-
+  console.log(req.body)
   const result = await House.create(req.body)
   if (result['affectedRows'] === 1) {
 
