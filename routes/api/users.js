@@ -48,7 +48,8 @@ router.post("/login", async (req, res) => {
       const result = await User.updateToken(token, user.id);
       res.json({
         success: token,
-        id: user.id
+        id: user.id,
+        nombre: user.nombre
       });
     } else {
       res.status(401).json({
