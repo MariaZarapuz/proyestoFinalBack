@@ -61,8 +61,7 @@ const create = ({
   ascensor,
   parking,
   piscina,
-  terraza,
-  balcon,
+  parque,
   imagen1,
   imagen2,
   imagen3,
@@ -74,7 +73,7 @@ const create = ({
   return new Promise((resolve, reject) => {
 
     db.query(
-      "insert into casas (titulo,direccion,latitud,longitud,piso,puerta,poblacion,provincia, pais,cp,fecha_entrada,fecha_salida,capacidad,habitaciones,camas,banos,descripcion,lavadora,secadora,aireAcondicionado,calefaccion,teleCable,plancha,horno,wifi,microondas,lavavajillas,secador,tostador,ascensor,parking,piscina,terraza,balcon,imagen1,imagen2,imagen3,imagen4,imagen5,fk_usuarios) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "insert into casas (titulo,direccion,latitud,longitud,piso,puerta,poblacion,provincia, pais,cp,fecha_entrada,fecha_salida,capacidad,habitaciones,camas,banos,descripcion,lavadora,secadora,aireAcondicionado,calefaccion,teleCable,plancha,horno,wifi,microondas,lavavajillas,secador,tostador,ascensor,parking,piscina,parque,imagen1,imagen2,imagen3,imagen4,imagen5,fk_usuarios) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
       [
         titulo,
         direccion,
@@ -108,8 +107,7 @@ const create = ({
         ascensor,
         parking,
         piscina,
-        terraza,
-        balcon,
+        parque,
         imagen1,
         imagen2,
         imagen3,
@@ -159,14 +157,12 @@ const editbyId = ({
   ascensor,
   parking,
   piscina,
-  terraza,
-  balcon,
-  imagen1,
+  parque,
 
 }, idHouse) => {
   return new Promise((resolve, reject) => {
     db.query(
-      "update casas set titulo=?,direccion=?,latitud=?,longitud=?,piso=?,puerta=?,poblacion=?,provincia=?, pais=?,cp=?,fecha_entrada=?,fecha_salida=?,capacidad=?,habitaciones=?,camas=?,banos=?,descripcion=?,lavadora=?,secadora=?,aireAcondicionado=?,calefaccion=?,teleCable=?,plancha=?,horno=?,wifi=?,microondas=?,lavavajillas=?,secador=?,tostador=?,ascensor=?,parking=?,piscina=?,terraza=?,balcon=?,imagen1=? where id=?",
+      "update casas set titulo=?,direccion=?,latitud=?,longitud=?,piso=?,puerta=?,poblacion=?,provincia=?, pais=?,cp=?,fecha_entrada=?,fecha_salida=?,capacidad=?,habitaciones=?,camas=?,banos=?,descripcion=?,lavadora=?,secadora=?,aireAcondicionado=?,calefaccion=?,teleCable=?,plancha=?,horno=?,wifi=?,microondas=?,lavavajillas=?,secador=?,tostador=?,ascensor=?,parking=?,piscina=?,parque=? where id=?",
       [
         titulo,
         direccion,
@@ -200,9 +196,7 @@ const editbyId = ({
         ascensor,
         parking,
         piscina,
-        terraza,
-        balcon,
-        imagen1,
+        parque,
         idHouse
       ],
       (err, result) => {
@@ -213,6 +207,18 @@ const editbyId = ({
   });
 };
 
+
+const editImage1ById = ({ imagen1, imagen2, imagen3, imagen4, imagen5 }, idHouse) => {
+  return new Promise((resolve, reject) => {
+    db.query('update casas set imagen1 = ?, imagen2 = ?, imagen3 = ?, imagen4 = ?, imagen5 = ? where id=?', [imagen1, imagen2, imagen3, imagen4, imagen5, idHouse],
+      (err, result) => {
+        if (err) reject(err);
+        resolve(result);
+      }
+    )
+  })
+}
+
 const deleteById = houseid => {
   return new Promise((resolve, reject) => {
     db.query('delete from casas where id = ?', [houseid], (err, result) => {
@@ -222,11 +228,16 @@ const deleteById = houseid => {
   })
 }
 
+
+
+
+
 module.exports = {
   getAll: getAll,
   getByFk: getByFk,
   getByFilter: getByFilter,
   create: create,
   editbyId: editbyId,
+  editImage1ById: editImage1ById,
   deleteById: deleteById
 };
