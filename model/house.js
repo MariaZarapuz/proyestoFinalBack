@@ -82,7 +82,7 @@ const create = ({
   return new Promise((resolve, reject) => {
 
     db.query(
-      "insert into casas (titulo,direccion,latitud,longitud,piso,puerta,poblacion,provincia, pais,cp,fecha_entrada,fecha_salida,capacidad,habitaciones,camas,banos,descripcion,lavadora,secadora,aireAcondicionado,calefaccion,teleCable,plancha,horno,wifi,microondas,lavavajillas,secador,tostador,ascensor,parking,piscina,parque,imagen1,imagen2,imagen3,imagen4,imagen5,fk_usuarios) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "insert into casas (titulo,direccion,latitud,longitud,piso,puerta,poblacion,provincia, pais,cp,fecha_entrada,fecha_salida,capacidad,habitaciones,camas,banos,descripcion,lavadora,secadora,aireAcondicionado,calefaccion,teleCable,plancha,horno,wifi,microondas,lavavajillas,secador,tostador,ascensor,parking,piscina,parque,imagen1,imagen2,imagen3,imagen4,imagen5,fk_usuarios) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
       [
         titulo,
         direccion,
@@ -217,7 +217,13 @@ const editbyId = ({
 };
 
 
-const editImage1ById = ({ imagen1, imagen2, imagen3, imagen4, imagen5 }, idHouse) => {
+const editImage1ById = ({
+  imagen1,
+  imagen2,
+  imagen3,
+  imagen4,
+  imagen5
+}, idHouse) => {
   return new Promise((resolve, reject) => {
     db.query('update casas set imagen1 = ?, imagen2 = ?, imagen3 = ?, imagen4 = ?, imagen5 = ? where id=?', [imagen1, imagen2, imagen3, imagen4, imagen5, idHouse],
       (err, result) => {

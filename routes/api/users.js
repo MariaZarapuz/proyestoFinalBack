@@ -14,9 +14,9 @@ router.get("/", async (req, res) => {
 
 //GET http://localhost:3000/api/users/user/:idUser
 router.get("/user/:idUser", async (req, res) => {
-  const user = await User.getUserById(req.params.idUser)
-  res.json(user)
-})
+  const user = await User.getUserById(req.params.idUser);
+  res.json(user);
+});
 
 //POST http://localhost:3000/api/users
 router.post("/", async (req, res) => {
@@ -73,33 +73,31 @@ const createToken = pUser => {
 };
 
 router.post("/saveToken", async (req, res) => {
-
   const result = await User.updateToken(req.body.token, req.body.id);
-
 });
-//POST http://localhost:3000/api/users/email
-router.post('/email', EmailCtrl.enviarEmail);
-
-//PUT http://localhost:3000/api/users/:email
-router.put('/:email', async (req, res) => {
-  const contraseñaEnc = bcrypt.hashSync(req.body.contraseña, 10);
-  req.body.contraseña = contraseñaEnc;
-  const result = await User.updatePassword(req.body.contraseña, req.params.email);
-  console.log(req.body.contraseña)
-  res.json(result);
-
-
-})
 
 //PUT http://localhost:3000/api/users/:pUserId
 router.put("/updateProfile", middlewares.checkToken, async (req, res) => {
-  const result = await User.updateProfile(req.body, req.headers['user-token']);
+  const result = await User.updateProfile(req.body, req.headers["user-token"]);
+  res.json(result);
+});
+
+// //PUT http://localhost:3000/api/users/:email
+router.put("/:email", async (req, res) => {
+  console.log("pasa por aqui");
+  const contraseñaEnc = bcrypt.hashSync(req.body.contraseña, 10);
+  req.body.contraseña = contraseñaEnc;
+  const result = await User.updatePassword(
+    req.body.contraseña,
+    req.params.email
+  );
+  console.log(req.body.contraseña);
   res.json(result);
 });
 
 //DELETE http://localhost:3000/api/users
 router.delete("/", middlewares.checkToken, async (req, res) => {
-  const result = await User.deleteByToken(req.headers['user-token']);
+  const result = await User.deleteByToken(req.headers["user-token"]);
   if (result["affectedRows"] === 1) {
     res.json({
       success: "El usuario se ha eliminado"
@@ -110,5 +108,7 @@ router.delete("/", middlewares.checkToken, async (req, res) => {
     });
   }
 });
+//POST http://localhost:3000/api/users/email
+router.post("/email", EmailCtrl.enviarEmail);
 
 module.exports = router;

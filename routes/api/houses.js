@@ -32,7 +32,7 @@ router.post('/filter', async (req, res) => {
 
 //POST http://localhost:3000/api/houses
 router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) => {
-  console.log('que pasa', req.files.imagen)
+  console.log('que pasa')
   let index = 1
   for (let ruta of req.files.imagen) {
 
@@ -72,8 +72,8 @@ router.post("/", middlewares.checkToken, multipartMiddleware, async (req, res) =
 });
 
 // PUT http://localhost:3000/api/houses/:id
-router.put('/:id', middlewares.checkToken, multipartMiddleware, async (req, res) => {
-  console.log(req.body)
+router.put('/:id', multipartMiddleware, async (req, res) => {
+  console.log(req.body, 'hello amigui')
   const result = await House.editbyId(req.body, req.params.id)
   console.log(result)
   if (result['affectedRows'] === 1) {
