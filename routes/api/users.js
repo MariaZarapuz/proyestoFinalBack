@@ -46,8 +46,9 @@ router.post("/login", async (req, res) => {
       let token = createToken(user);
       const result = await User.updateToken(token, user.id);
       res.json({
-        success: token
-
+        success: token,
+        id: user.id,
+        nombre: user.nombre
       });
     } else {
       res.status(401).json({
@@ -74,6 +75,7 @@ const createToken = pUser => {
 router.post("/saveToken", async (req, res) => {
 
   const result = await User.updateToken(req.body.token, req.body.id);
+
 });
 //POST http://localhost:3000/api/users/email
 router.post('/email', EmailCtrl.enviarEmail);
