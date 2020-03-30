@@ -3,9 +3,8 @@ const bcrypt = require("bcryptjs");
 const moment = require("moment");
 const jwt = require("jwt-simple");
 const middlewares = require("../middlewares");
-
 const User = require("../../model/user");
-
+const EmailCtrl = require("../../model/mailCtrl");
 //Get http://localhost:3000/api/users
 router.get("/", async (req, res) => {
   const token = req.headers["user-token"];
@@ -76,6 +75,19 @@ router.post("/saveToken", async (req, res) => {
 
   const result = await User.updateToken(req.body.token, req.body.id);
 });
+//POST http://localhost:3000/api/users/email
+router.post('/email', EmailCtrl.enviarEmail);
+
+//PUT http://localhost:3000/api/users/:email
+router.put('/:email', async (req, res) => {
+  const contraseñaEnc = bcrypt.hashSync(req.body.contraseña, 10);
+  req.body.contraseña = contraseñaEnc;
+  const result = await User.updatePassword(req.body.contraseña, req.params.email);
+  console.log(req.body.contraseña)
+  res.json(result);
+
+
+})
 
 //PUT http://localhost:3000/api/users/:pUserId
 router.put("/updateProfile", middlewares.checkToken, async (req, res) => {

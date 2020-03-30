@@ -64,6 +64,20 @@ const updateProfile = (pUser, token) => {
       });
   });
 };
+const updatePassword = (pContraseña, email) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      "UPDATE usuarios SET contraseña = ? where email=?",
+      [pContraseña, email],
+      (err, result) => {
+        if (err) reject(err);
+        resolve(result);
+      }
+
+    )
+
+  })
+}
 
 const deleteByToken = (token) => {
   return new Promise((resolve, reject) => {
@@ -86,6 +100,7 @@ const emailExists = pEmail => {
       }
     );
   });
+
 };
 
 module.exports = {
@@ -95,5 +110,6 @@ module.exports = {
   deleteByToken: deleteByToken,
   updateProfile: updateProfile,
   emailExists: emailExists,
-  updateToken: updateToken
+  updateToken: updateToken,
+  updatePassword: updatePassword
 };
