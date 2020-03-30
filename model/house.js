@@ -28,6 +28,15 @@ const getByFilter = filter => {
   });
 }
 
+const getName = name => {
+  return new Promise((resolve, reject) => {
+    db.query("select * from casas where nombre =?", [nombre], (err, rows) => {
+      if (err) reject(err);
+      resolve(rows);
+    });
+  });
+}
+
 const create = ({
   titulo,
   direccion,
@@ -236,6 +245,7 @@ module.exports = {
   getAll: getAll,
   getByFk: getByFk,
   getByFilter: getByFilter,
+  getName: getName,
   create: create,
   editbyId: editbyId,
   editImage1ById: editImage1ById,
