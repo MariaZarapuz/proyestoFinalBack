@@ -2,6 +2,13 @@ const router = require("express").Router();
 const Contact = require('../../model/contact')
 
 
+
+router.get("/", async (req, res) => {
+    const coments = await Contact.getAll();
+    res.json(coments);
+
+});
+
 // GET http://localhost:3000/api/contacts
 
 router.get('/:recept', async (req, res) => {
